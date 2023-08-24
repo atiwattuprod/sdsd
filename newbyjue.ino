@@ -7,21 +7,21 @@
 // float Kderiv = 11.95;
 // float Kinte = 0.0001;
 
-// int base = 200; 
-// int maxspeed = 250;
-// float Kprop = 3.347;
-// float Kderiv = 10.55;
-// float Kinte = 0.0001;
+int base = 200; 
+int maxspeed = 250;
+float Kprop = 3.347;
+float Kderiv = 10.55;
+float Kinte = 0.0001;
 int pos;
 int x = 0;
 int FLsensor = 2;
 int FRsensor = 12;
 
-int base = 200;
-int maxspeed = 250;
-float Kprop = 3.547;
-float Kderiv = 10.55;
-float Kinte = 0.0001;
+// int base = 200;
+// int maxspeed = 250;
+// float Kprop = 4.547;
+// float Kderiv = 10.55;
+// float Kinte = 0.0001;
 // int pos;
 // int x = 0;
 
@@ -115,6 +115,9 @@ while(true){
   Motores(0,0);
 }
 delay(60);
+// Serial.print(digitalRead(FLsensor));
+// Serial.print("  ");
+// Serial.println(digitalRead(FRsensor));
 
   // int line_position = GetPos();
   // int Correction_power = PIDLambo(line_position, Kprop, Kderiv, Kinte);
@@ -370,11 +373,11 @@ int PIDLambo(int POS, float Kp, float Kd, float Ki) {
 
 void Brl() {
 
-  int SL = digitalRead(FLsensor);
-  int SR = digitalRead(FRsensor);
-
+ 
   while(x != 1) {
   //  digitalWrite(8, HIGH);
+   int SL = digitalRead(FLsensor);
+  int SR = digitalRead(FRsensor);
    int line_position = GetPos();
   int Correction_power = PIDLambo(line_position, Kprop, Kderiv, Kinte);
   int leftSpeed = base + Correction_power;
@@ -388,16 +391,14 @@ void Brl() {
   Motores(leftSpeed, rightSpeed);
    if( SL == 1 && SR == 1  ) {
      Motores(base,base);
-     delay(500);
-     Left(500);
-     Motores(base,base);
-     delay(500);
+     delay(200);
+     
      x = x + 1 ; 
    }
   }
 }
 void Left( int y ) {
-    Motores(360,0);
+    Motores(0,360);
     delay( y );
 }
 
@@ -405,6 +406,9 @@ void Leaw() {
   
   while( x != 2 ) {
 
+  Left(500);
+  Motores(base,base);
+  delay(500);
   // base = 100;
   int line_position = GetPos();
   int Correction_power = PIDLambo(line_position, Kprop, Kderiv, Kinte);
